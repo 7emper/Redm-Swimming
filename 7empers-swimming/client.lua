@@ -20,7 +20,7 @@ end
 
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(5)
+        Citizen.Wait(0)
         CheckPlayerWaterStatus()
         if boatsinvincible then
             StopBoatFromSinking()
