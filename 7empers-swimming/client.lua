@@ -1,10 +1,16 @@
 boatsinvincible = true -- Sets all boats to be invincible
+NoSinkZone = true -- stops boats from sinking when past the sink zone border
+InfSwim = true -- allows infinite swimming, similar to gta 5 swimming
+
+--no touchy below this, unless you know what you're doing!
 
 function CheckPlayerWaterStatus()
     local playerPed = PlayerPedId()
-    if IsEntityInWater(playerPed) then
-        local stam = GetAttributeCoreValue(playerPed, 1)
-        Citizen.InvokeNative(0xC6258F41D86676E0, playerPed, 1, stam > 2 and stam or 5)
+    if InfSwim then
+        if IsEntityInWater(playerPed) then
+            local stam = GetAttributeCoreValue(playerPed, 1)
+            Citizen.InvokeNative(0xC6258F41D86676E0, playerPed, 1, stam > 2 and stam or 5)
+        end
     end
 end
 
@@ -18,10 +24,17 @@ function StopBoatFromSinking()
     end
 end
 
+function SinkZone()
+    if NoSinkZone then
+        Citizen.InvokeNative(0xC1E8A365BF3B29F2, PlayerPedId(), 364, 1) -- stop boat from sinking past sink zones
+    end
+end
+
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         CheckPlayerWaterStatus()
+        SinkZone()
         if boatsinvincible then
             StopBoatFromSinking()
         end
