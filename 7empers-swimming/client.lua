@@ -1,3 +1,5 @@
+boatsinvincible = true -- Sets all boats to be invincible
+
 function CheckPlayerWaterStatus()
     local playerPed = PlayerPedId()
     if IsEntityInWater(playerPed) then
@@ -6,9 +8,22 @@ function CheckPlayerWaterStatus()
     end
 end
 
+function StopBoatFromSinking()
+    if IsPedInAnyBoat(PlayerPedId()) then
+        local veh = GetVehiclePedIsIn(PlayerPedId(), false)
+        local health = GetEntityMaxHealth(veh)
+        SetEntityInvincible(veh, true)
+    else
+        SetEntityInvincible(veh, false)
+    end
+end
+
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(0)
+        Citizen.Wait(5)
         CheckPlayerWaterStatus()
+        if boatsinvincible then
+            StopBoatFromSinking()
+        end
     end
 end)
