@@ -14,7 +14,6 @@ end
 function StopBoatFromSinking()
     if IsPedInAnyBoat(PlayerPedId()) then
         local veh = GetVehiclePedIsIn(PlayerPedId(), false)
-        local health = GetEntityMaxHealth(veh)
         SetEntityInvincible(veh, true)
     else
         SetEntityInvincible(veh, false)
