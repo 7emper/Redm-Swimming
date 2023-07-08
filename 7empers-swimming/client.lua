@@ -5,7 +5,11 @@ local infSwim = true -- Allows infinite swimming, similar to GTA 5 swimming
 function CheckPlayerWaterStatus()
     if IsPedSwimming(PlayerPedId()) and infSwim then
         local stam = GetAttributeCoreValue(PlayerPedId(), 1)
-        Citizen.InvokeNative(0xC6258F41D86676E0, PlayerPedId(), 1, stam > 2 and stam or 5)
+        if stam > 2 then
+            Citizen.InvokeNative(0xC6258F41D86676E0, PlayerPedId(), 1, stam)
+        else
+            Citizen.InvokeNative(0xC6258F41D86676E0, PlayerPedId(), 1, 5)
+        end
     end
 end
 
